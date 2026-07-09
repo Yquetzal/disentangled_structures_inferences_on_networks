@@ -1,0 +1,29 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "decorrnet"
+version = "0.1.0"
+description = "Library to infer decorrelated communities (Louvain-like) and decorrelated embeddings (SiNE-like)"
+readme = "README.md"
+requires-python = ">=3.9"
+authors = [
+    { name = "DUPUY Guilhem", email = "guilhempds@gmail.com" },
+    { name = "CAZABET Rémy", email = "remy.cazabet@gmail.com" }
+]
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Topic :: Scientific/Engineering :: Data Mining"
+]
+dependencies = [
+    "networkx>=3.0",
+    "numpy>=1.22",
+    "scipy>=1.8",
+    "torch>=2.0"
+]
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/decorrnet"]
