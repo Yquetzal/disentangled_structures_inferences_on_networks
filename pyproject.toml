@@ -2,6 +2,10 @@
 requires = ["hatchling"]
 build-backend = "hatchling.build"
 
+[project.urls]
+"Source" = "https://github.com/DeankoontzG/disentangled_structures_inferences_on_networks"
+#"Paper" = "https://doi.org/10.XXXX/my-doi-ici"
+
 [project]
 name = "disentangled-net"
 version = "0.1.0"
@@ -12,11 +16,6 @@ authors = [
     { name = "DUPUY Guilhem", email = "guilhempds@gmail.com" },
     { name = "CAZABET Rémy", email = "remy.cazabet@gmail.com" }
 ]
-
-[project.urls]
-"Source" = "https://github.com/DeankoontzG/disentangled_structures_inferences_on_networks"
-#"Paper" = "https://doi.org/10.XXXX/my-doi-ici"
-
 classifiers = [
     "Programming Language :: Python :: 3",
     "License :: OSI Approved :: MIT License",
@@ -27,7 +26,8 @@ classifiers = [
 ]
 dependencies = [
     "networkx>=3.0",
-    "numpy>=1.22",
+    "numpy>=1.22,<2.0",
+    "numpy<2",
     "scipy>=1.8",
     "torch>=2.0"
 ]
