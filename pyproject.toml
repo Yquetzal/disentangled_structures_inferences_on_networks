@@ -3,9 +3,9 @@ requires = ["hatchling"]
 build-backend = "hatchling.build"
 
 [project]
-name = "decorrnet"
+name = "disentangled-net"
 version = "0.1.0"
-description = "Library to infer decorrelated communities (Louvain-like) and decorrelated embeddings (SiNE-like)"
+description = "Library to infer disentangled communities (Louvain-like) and disentangled embeddings"
 readme = "README.md"
 requires-python = ">=3.9"
 authors = [
@@ -15,7 +15,7 @@ authors = [
 
 [project.urls]
 "Source" = "https://github.com/DeankoontzG/disentangled_structures_inferences_on_networks"
-#"Paper" = "https://doi.org/10.XXXX/votre-doi-ici"
+#"Paper" = "https://doi.org/10.XXXX/my-doi-ici"
 
 classifiers = [
     "Programming Language :: Python :: 3",
@@ -33,4 +33,4 @@ dependencies = [
 ]
 
 [tool.hatch.build.targets.wheel]
-packages = ["src/decorrnet"]
+packages = ["src/disentangled_net"]
