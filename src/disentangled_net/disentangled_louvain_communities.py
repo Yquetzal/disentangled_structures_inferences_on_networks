@@ -71,15 +71,15 @@ def _find_best_partition(
     return best_overall_partition
 
 
-def infer_spatial_decorrelated_louvain_communities(
+def infer_spatial_disentangled_louvain_communities(
     G: nx.Graph, 
     pos_attr: str = "GT_pos", 
-    attr_name: str = "spatially_decorrelated_louvain_id",
+    attr_name: str = "spatially_disentangled_louvain_id",
     K_min: int = 3, 
     min_edge_ratio: float = 0.01
 ) -> nx.Graph:
     """
-    Generates a spatial gravity null model from node positions, infers decorrelated 
+    Generates a spatial gravity null model from node positions, infers disentangled 
     communities using standardized residuals, and returns the enriched NetworkX Graph.
     """
     P, nodes = get_gravity_null_model_manual_iterative(G, pos_attr)
@@ -115,16 +115,16 @@ def infer_spatial_decorrelated_louvain_communities(
     return G
 
 
-def infer_custom_decorrelated_louvain_communities(
+def infer_custom_disentangled_louvain_communities(
     G: nx.Graph, 
     null_model_matrix: np.ndarray, 
     ordered_nodes: list, 
-    attr_name: str = "decorrelated_louvain_id",
+    attr_name: str = "disentangled_louvain_id",
     K_min: int = 3, 
     min_edge_ratio: float = 0.01
 ) -> nx.Graph:
     """
-    Infers decorrelated communities using a user-provided custom null model probability matrix, 
+    Infers disentangled communities using a user-provided custom null model probability matrix, 
     and returns the enriched NetworkX Graph.
     """
     P_symmetric = (null_model_matrix + null_model_matrix.T) / 2

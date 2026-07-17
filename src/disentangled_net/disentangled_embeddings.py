@@ -83,7 +83,7 @@ def _generate_pairwise_samples(
     return torch.cat(all_pairs, dim=0), torch.cat(all_signs, dim=0)
 
 
-def train_custom_signed_embedding(
+def train_custom_signed_embeddings(
     R_matrix: np.ndarray, 
     embedding_dim: int = 64, 
     epochs: int = 100, 
@@ -91,7 +91,7 @@ def train_custom_signed_embedding(
     temperature: float = 0.5
 ) -> np.ndarray:
     """
-    Optimizes a SiNE-based signed representation space given an arbitrary residual matrix.
+    Optimizes a signed representation space given an arbitrary residual matrix.
     """
     N = R_matrix.shape[0]
     device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
@@ -116,17 +116,17 @@ def train_custom_signed_embedding(
     return node_embeddings.detach().cpu().numpy()
 
 
-def infer_spatial_decorrelated_SiNE_embedding(
+def infer_spatial_disentangled_embeddings(
     G: nx.Graph, 
     pos_attr: str = "GT_pos", 
-    attr_name: str = "spatially_decorrelated_embedding",
+    attr_name: str = "spatially_disentangled_embedding",
     embedding_dim: int = 64, 
     epochs: int = 100, 
     lr: float = 0.1, 
     temperature: float = 0.5
 ) -> nx.Graph:
     """
-    Computes a SiNE node embedding over the network matrix purged of its spatial gravity 
+    Computes node embeddings over the network matrix purged of its spatial gravity 
     null model components, storing results back into the NetworkX Graph.
     """
     start_time = time.time()
@@ -142,12 +142,12 @@ def infer_spatial_decorrelated_SiNE_embedding(
     # Asymmetry diagnosis logging
     asymmetry_sum = np.sum(np.abs(P - P_symmetric))
     max_diff = np.max(np.abs(P - P_symmetric))
-    print("--- Spatial Null Model Asymmetry Analysis (SiNE) ---")
+    print("--- Spatial Null Model Asymmetry Analysis ---")
     print(f"Absolute difference sum (|B_before - B_after|): {asymmetry_sum:.2e}")
     print(f"Max point-wise discrepancy: {max_diff:.2e}")
     print("----------------------------------------------------")
     
-    embedding_matrix = train_custom_signed_embedding(
+    embedding_matrix = train_custom_signed_embeddings(
         R_matrix=R_matrix, 
         embedding_dim=embedding_dim, 
         epochs=epochs, 
@@ -160,21 +160,22 @@ def infer_spatial_decorrelated_SiNE_embedding(
     nx.set_node_attributes(G, embeddings_dict, attr_name)
     
     duration = time.time() - start_time
-    print(f"[Success] SiNE embedding complete in {duration:.2f}s. Added '{attr_name}' to nodes.")
+    print(f"[Success] disentangled embeddings complete in {duration:.2f}s. Added '{attr_name}' to nodes.")
     return G
 
 
-def infer_custom_decorrelated_SiNE_embedding(
+def infer_custom_disentangled_embeddings(
     G: nx.Graph, 
     null_model_matrix: np.ndarray, 
-    attr_name: str = "decorrelated_embedding",
+    ordered_nodes: list, 
+    attr_name: str = "disentangled_embedding",
     embedding_dim: int = 64, 
     epochs: int = 100, 
     lr: float = 0.1, 
     temperature: float = 0.5
 ) -> nx.Graph:
     """
-    Computes a SiNE node embedding using an externally provided custom null model 
+    Computes node embeddings using an externally provided custom null model 
     probability matrix, storing results back into the NetworkX Graph.
     """
     start_time = time.time()
@@ -185,7 +186,7 @@ def infer_custom_decorrelated_SiNE_embedding(
     P_symmetric = (null_model_matrix + null_model_matrix.T) / 2
     R_matrix = A - P_symmetric
     
-    embedding_matrix = train_custom_signed_embedding(
+    embedding_matrix = train_custom_signed_embeddings(
         R_matrix=R_matrix, 
         embedding_dim=embedding_dim, 
         epochs=epochs, 
@@ -194,9 +195,9 @@ def infer_custom_decorrelated_SiNE_embedding(
     )
     
     # Map results to node layout attributes
-    embeddings_dict = {node_id: embedding_matrix[i].tolist() for i, node_id in enumerate(nodes)}
+    embeddings_dict = {node_id: embedding_matrix[i].tolist() for i, node_id in enumerate(ordered_nodes)}
     nx.set_node_attributes(G, embeddings_dict, attr_name)
     
     duration = time.time() - start_time
-    print(f"[Success] Custom SiNE embedding complete in {duration:.2f}s. Added '{attr_name}' to nodes.")
+    print(f"[Success] Custom disentangled embeddings complete in {duration:.2f}s. Added '{attr_name}' to nodes.")
     return G

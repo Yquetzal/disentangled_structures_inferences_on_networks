@@ -13,6 +13,10 @@ authors = [
     { name = "CAZABET Rémy", email = "remy.cazabet@gmail.com" }
 ]
 
+[project.urls]
+"Source" = "https://github.com/DeankoontzG/decorrelated_structures_inferences_on_networks"
+#"Paper" = "https://doi.org/10.XXXX/votre-doi-ici"
+
 classifiers = [
     "Programming Language :: Python :: 3",
     "License :: OSI Approved :: MIT License",
