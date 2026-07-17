@@ -14,7 +14,7 @@ authors = [
 ]
 
 [project.urls]
-"Source" = "https://github.com/DeankoontzG/decorrelated_structures_inferences_on_networks"
+"Source" = "https://github.com/DeankoontzG/disentangled_structures_inferences_on_networks"
 #"Paper" = "https://doi.org/10.XXXX/votre-doi-ici"
 
 classifiers = [
