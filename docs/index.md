@@ -2,12 +2,9 @@
 
 **Discover network communities and embeddings beyond the effects of known node attributes.**
 
-Real networks are shaped by multiple factors, such as geographic distance and
-shared categorical attributes. Yet community detection and network embeddings
-can both recover the same dominant structure, leaving other patterns hidden.
-Accounting for one known factor allows us to search for a complementary
-structure in what it does not explain. Together, the known and discovered
-structures provide a richer, interpretable description of the network.
+Find communities hidden behind a known spatial or social structure. Run a
+Louvain-based method while accounting for geographic proximity, similarities in
+age or income, or a categorical attribute such as country or organisation.
 
 `disentangled-net` lets you specify the attribute you want to account for. It
 models how that attribute and node degrees shape connectivity, then uses the

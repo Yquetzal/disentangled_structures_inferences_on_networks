@@ -2,12 +2,9 @@
 
 **Discover network communities and embeddings beyond the effects of known node attributes.**
 
-Real networks are shaped by multiple factors, such as geographic distance and
-shared categorical attributes. Yet community detection and network embeddings
-can both recover the same dominant structure, leaving other patterns hidden.
-Accounting for one known factor allows us to search for a complementary
-structure in what it does not explain. Together, the known and discovered
-structures provide a richer, interpretable description of the network.
+Find communities hidden behind a known spatial or social structure. Run a
+Louvain-based method while accounting for geographic proximity, similarities in
+age or income, or a categorical attribute such as country or organisation.
 
 Give the library the node attribute you want to account for: a **continuous
 attribute** such as age or geographic coordinates, or a **categorical attribute**
