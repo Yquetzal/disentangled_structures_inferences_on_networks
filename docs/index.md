@@ -2,10 +2,12 @@
 
 **Discover network communities and embeddings beyond the effects of known node attributes.**
 
-Links in a network can reflect several overlapping patterns. In a network of
-social ties between regions, for example, geographic proximity may dominate the
-communities you detect or the network layout you draw. How can you explore the
-connections that geography alone does not explain?
+Real networks are shaped by multiple factors, such as geographic distance and
+shared categorical attributes. Yet community detection and network embeddings
+can both recover the same dominant structure, leaving other patterns hidden.
+Accounting for one known factor allows us to search for a complementary
+structure in what it does not explain. Together, the known and discovered
+structures provide a richer, interpretable description of the network.
 
 `disentangled-net` lets you specify the attribute you want to account for. It
 models how that attribute and node degrees shape connectivity, then uses the
