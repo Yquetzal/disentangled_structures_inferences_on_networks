@@ -5,7 +5,7 @@ build-backend = "hatchling.build"
 [project]
 name = "disentangled-net"
 version = "2.0.0"
-description = "Communities and embeddings relative to a null model (spatial, block or custom)"
+description = "Discover network communities and embeddings beyond known node attributes"
 readme = "README.md"
 requires-python = ">=3.9"
 license = "MIT"

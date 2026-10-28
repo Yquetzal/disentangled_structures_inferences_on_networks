@@ -1,51 +1,69 @@
 # disentangled-net
 
-Find the structure of a network that a **null model** does not explain.
+**Discover network communities and embeddings beyond the effects of known node attributes.**
 
-Many networks are shaped by a known factor: distance, existing groups, degrees. Classic community detection rediscovers that factor. Give `disentangled-net` the known attribute: it fits the expected links, then finds communities or embeddings in what remains.
+Links in a network can reflect several overlapping patterns. In a network of
+social ties between regions, for example, geographic proximity may dominate the
+communities you detect or the network layout you draw. How can you explore the
+connections that geography alone does not explain?
+
+`disentangled-net` lets you specify the attribute you want to account for. It
+models how that attribute and node degrees shape connectivity, then uses the
+links that are stronger or weaker than expected to find:
+
+- **Communities:** groups of nodes with more connections than expected under
+  that model.
+- **Embeddings:** coordinates for each node, for visualising or analysing
+  network structure beyond the modelled effect.
+
+The attribute can be **continuous**, such as age or geographic coordinates, or
+**categorical**, such as language, country or organisation. The library selects
+the model and computational settings automatically; you can also specify them
+explicitly for research or custom applications.
+
+The methods are described in the accompanying {doc}`paper` by Guilhem Dupuy
+and Rémy Cazabet (manuscript; public link forthcoming).
+
+## Get started
+
+Install from GitHub while the package release is being prepared:
 
 ```bash
-pip install "disentangled-net>=2"            # communities, once v2 is published
-pip install "disentangled-net[embeddings]>=2" # + PyTorch embedding methods
+python -m pip install "git+https://github.com/Yquetzal/disentangled_structures_inferences_on_networks.git@v2"
 ```
 
-This documentation describes version 2. Until it is published, install the v2
-checkout with `python -m pip install .` or `python -m pip install ".[embeddings]"`.
-The published 0.1 release has a different API.
-
-## Give the attribute
+Give a graph and the name of a node attribute. This runnable example accounts
+for the categorical `"club"` attribute in the Karate Club network:
 
 ```python
+import networkx as nx
 import disentangled_net as dn
 
-partition = dn.disentangled_communities(G, attribute="age")
-embedding = dn.disentangled_embeddings(G, attribute="age", dim=2)
+G = nx.karate_club_graph()
+partition = dn.disentangled_communities(G, attribute="club", random_state=0)
+embedding = dn.disentangled_embeddings(G, attribute="club", dim=2)
 ```
 
-`G` is a networkx graph with an `"age"` node attribute. Strings and booleans give a categorical null; numbers and vectors give a continuous one. The default path chooses compatible computations automatically. See the {doc}`guide/quickstart` for countries, geographic positions, sparse input and reusing a fitted model. It needs no knowledge of landmarks or sampling.
+`partition` maps each node to a community; `embedding` maps each node to its
+coordinates. Replace `"club"` with your own attribute. The {doc}`guide/quickstart`
+explains numeric attributes, geographic coordinates and categorical codes.
 
-## Advanced use
+## Explore the documentation
 
-1. **Build a null model**: fit one to the graph ({doc}`guide/nulls`): spatial, block model, configuration model. You can also supply any matrix or function.
-2. **Find communities relative to it** ({doc}`guide/communities`), maximising
-
-   $$Q = \frac{1}{m}\sum_{u<v,\ \text{same community}} \left(A_{uv} - \gamma P_{uv} - \varepsilon\right).$$
-
-   The attribute workflow handles the computational choice. Explicit approximations are available for custom models and controlled experiments.
-3. **Read and reuse** the result: `partition_quality`, `excess_density`, `epsilon_profile`, `disentangled_embeddings` ({doc}`guide/embeddings`).
-
-To test a method on graphs where the answer is known, see {doc}`guide/synthetic`.
-
-New in version 2: see {doc}`whats_new`.
+- {doc}`guide/quickstart`: use your own graph and attribute, and reuse a fitted model.
+- {doc}`guide/nulls`: choose or customise the model of expected connectivity.
+- {doc}`guide/communities` and {doc}`guide/embeddings`: control the analysis and interpret its outputs.
+- {doc}`guide/synthetic`: generate networks with known structure to test the methods.
+- {doc}`api`: full function and parameter reference.
 
 ```{toctree}
 :hidden:
 guide/quickstart
+paper
 guide/nulls
 guide/communities
 guide/embeddings
 guide/synthetic
-whats_new
 api
 releasing
 ```

@@ -1,62 +1,71 @@
 # disentangled-net
 
-Communities and embeddings relative to a **null model**: find the structure of a network that distance, known groups or degrees do not explain.
+**Discover network communities and embeddings beyond the effects of known node attributes.**
 
-This checkout is **version 2.0.0**, with a new API incompatible with 0.1. Until
-2.0.0 is published, install it from this directory:
+Links in a network can reflect several overlapping patterns. Geographic proximity,
+for example, can dominate the communities or layout of a network of social ties
+between regions. `disentangled-net` helps you explore the connections beyond
+that effect.
+
+Give the library the node attribute you want to account for: a **continuous
+attribute** such as age or geographic coordinates, or a **categorical attribute**
+such as language, country or organisation. It models connectivity based on that
+attribute and node degrees, then finds communities or embeddings from the links
+that are stronger or weaker than expected. The model and computational settings
+are selected automatically, with explicit controls available for research.
+
+The methods are described in the accompanying manuscript by Guilhem Dupuy and
+Rémy Cazabet, [*Beyond the Dominant Meso-Scale Structure: Scalable Mixed Models
+for Interpretable Network Analysis*](https://yquetzal.github.io/disentangled_structures_inferences_on_networks/paper.html).
+This is a temporary reference; the public manuscript link will be added when available.
+
+## Get started
+
+Install from GitHub while the package release is being prepared:
 
 ```bash
-python -m pip install .
-# Add PyTorch for SiNE and contrastive embeddings:
-python -m pip install ".[embeddings]"
+python -m pip install "git+https://github.com/Yquetzal/disentangled_structures_inferences_on_networks.git@v2"
 ```
 
 ```python
-import disentangled_net as dn
 import networkx as nx
+import disentangled_net as dn
 
-G = nx.karate_club_graph()
+G = nx.karate_club_graph()  # includes the categorical node attribute "club"
 partition = dn.disentangled_communities(G, attribute="club", random_state=0)
 embedding = dn.disentangled_embeddings(G, attribute="club", dim=2)
 ```
 
-Replace `"club"` with the node attribute you want to account for: `"age"`,
-`"country"`, `"pos"`, etc. **You do not need to choose a null model or landmarks.**
-Numbers/vectors are treated as continuous, strings/booleans as categories.
-Use `attribute_type="categorical"` for numeric category codes. For geographic
-`(latitude, longitude)` coordinates, add `metric="haversine"`.
+`partition` maps each node to a community; `embedding` maps each node to its
+coordinates. Replace `"club"` with your own attribute, such as `"age"`, `"country"`
+or `"pos"`. Use `attribute_type="categorical"` for numeric category codes, and
+`metric="haversine"` for geographic `(latitude, longitude)` coordinates in degrees.
+See the [quick start](https://yquetzal.github.io/disentangled_structures_inferences_on_networks/guide/quickstart.html)
+for complete examples and automatic model choices.
 
-The automatic path uses exact computations on small graphs, exact compression
-of repeated values, or landmarks on larger continuous inputs. Fitting and inference
-use the **same** prepared model. Communities use ε equal to graph density;
-default automatic embeddings are normalized spectral and need no PyTorch.
-See the [quick start](https://github.com/Yquetzal/disentangled_structures_inferences_on_networks/blob/v2/docs/guide/quickstart.md).
+The default methods work without PyTorch. For SiNE and contrastive embeddings,
+install the optional dependencies with
+`python -m pip install "disentangled-net[embeddings] @ git+https://github.com/Yquetzal/disentangled_structures_inferences_on_networks.git@v2"`.
 
-To fit once and reuse the same choices for both outputs:
+## More control
+
+Use `fit_null` to fit once and reuse the model for both communities and embeddings:
 
 ```python
 null = dn.fit_null(G, "club")
 partition = dn.disentangled_communities(G, null, random_state=0)
 embedding = dn.disentangled_embeddings(G, null, dim=2)
-print(null.diagnostics)
 ```
 
-The explicit `fit_spatial_null` / `fit_sbm_null` interface remains available for
-advanced settings and reproducing experiments. Its existing defaults are unchanged.
+The [documentation](https://yquetzal.github.io/disentangled_structures_inferences_on_networks/)
+covers explicit spatial and categorical models, degree correction, custom
+matrices/functions, large-graph approximations and synthetic benchmarks.
+Inputs can be networkx graphs or `scipy.sparse` adjacency matrices.
 
-- Null models: spatial (binned or exponential deterrence, Poisson or Bernoulli), stochastic block model, configuration model, or any matrix or function.
-- Communities maximise $\sum_{u<v \text{ same}} (A_{uv} - \gamma P_{uv} - \varepsilon)$. The additive resolution ε sets a minimal excess density for merges.
-- Large spatial graphs: landmarks turn the spatial null into a block model over geographic cells; the hybrid keeps exact distances at short range.
-- Input: networkx graphs or `scipy.sparse` adjacency matrices.
-- Joint distance and within-group effects: `fit_spatial_null(..., groups="country")`.
-
-Read the [documentation](https://yquetzal.github.io/disentangled_structures_inferences_on_networks/),
-[migration notes](https://github.com/Yquetzal/disentangled_structures_inferences_on_networks/blob/v2/docs/whats_new.md)
-and [publication guide](https://github.com/Yquetzal/disentangled_structures_inferences_on_networks/blob/v2/docs/releasing.md). Build the HTML documentation locally
-with `python -m pip install ".[docs]"` followed by
+For development, install this checkout with `python -m pip install ".[test,docs,embeddings]"`.
+Run tests with `python -m pytest -q` and build the documentation with
 `python -m sphinx -n -W -b html docs docs/_build/html`.
-
-Run tests with `python -m pip install ".[test,embeddings]"` and
-`python -m pytest -q`. PyTorch is optional for the base package.
+See the [release and hosting guide](https://yquetzal.github.io/disentangled_structures_inferences_on_networks/releasing.html)
+for publication instructions.
 
 Authors: Guilhem Dupuy and Rémy Cazabet. Released under the [MIT license](https://github.com/Yquetzal/disentangled_structures_inferences_on_networks/blob/v2/LICENSE).

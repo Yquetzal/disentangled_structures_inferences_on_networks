@@ -1,8 +1,7 @@
-# Publishing version 2
+# Release and hosting
 
-The distribution name stays **`disentangled-net`**, with Python import
-`disentangled_net`. Version 2.0.0 intentionally breaks the 0.1 API; see
-{doc}`whats_new`. A GitHub fork does not create a separate PyPI project or grant
+The distribution name is **`disentangled-net`**, with Python import
+`disentangled_net`. A GitHub fork does not create a separate PyPI project or grant
 upload rights to the existing one.
 
 ## Access needed once
@@ -61,11 +60,8 @@ so the supported lower bound is now 1.11.4.
 
 ## Put the reviewed code on your fork
 
-Use the **`disentangled-net-v2` checkout**, whose `origin` is your fork. The old
-`disentangled_structures_inferences_on_networks` directory is a separate checkout.
-Review `git status` and `git diff` first: the v2 rewrite already includes staged
-deletions of the old API and archives. Keep those deletions when committing the
-replacement package.
+Development is currently on the **`v2` branch** of your fork. Review `git status`
+and `git diff` before committing release changes. For a dedicated release branch:
 
 ```bash
 git switch -c release/v2.0.0
@@ -154,7 +150,7 @@ PyTorch. Builds fail on Sphinx warnings and unresolved references.
    configuration path `.readthedocs.yaml`.
 4. In the project settings, set **Default branch** to `v2` for this initial
    deployment. This makes `latest` build the current library, even while the
-   repository's `main` branch still contains the previous version. Leave the
+   repository's `main` branch is not yet the development branch. Leave the
    default documentation version as `latest`.
 5. Trigger/check the `latest` build in **Builds**, then open **View docs**. If the
    project name is available, the expected address is

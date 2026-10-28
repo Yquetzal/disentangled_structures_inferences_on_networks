@@ -20,7 +20,7 @@ structure; this does not guarantee statistical independence from the attribute.
 | Attribute | Call on your graph | Interpretation |
 |---|---|---|
 | Age, income, a numeric score | `dn.disentangled_communities(G, attribute="age")` | Effect of distance between numeric values |
-| Country, language, existing groups | `dn.disentangled_communities(G, attribute="country")` | Connectivity between known categories |
+| Categorical attributes: country, language, organisation | `dn.disentangled_communities(G, attribute="country")` | Connectivity between categories |
 | Geographic coordinates | `dn.disentangled_communities(G, attribute="pos", metric="haversine")` | `pos` contains `(latitude, longitude)` in degrees |
 | Integer codes for categories | `dn.disentangled_communities(G, attribute="group_id", attribute_type="categorical")` | Codes are labels, not ordered quantities |
 
@@ -87,7 +87,7 @@ information, so embeddings are zero and communities are singletons.
 
 For manual likelihoods, bins, hybrid corrections, multiple effects or a custom
 matrix/function, use {doc}`nulls`, {doc}`communities` and {doc}`embeddings`.
-The earlier explicit-null API keeps its defaults: ε = 0 and SiNE embeddings.
+With an explicitly fitted null model, the defaults are ε = 0 and SiNE embeddings.
 The automatic model's diagnostics describe its own defaults, so it stays
 consistent when passed between functions. On small continuous inputs,
 `fit_spatial_null(G, ..., bins=20, binning="edges")` gives the corresponding
