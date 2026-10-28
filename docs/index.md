@@ -64,5 +64,4 @@ guide/communities
 guide/embeddings
 guide/synthetic
 api
-releasing
 ```

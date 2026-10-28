@@ -1,0 +1,11 @@
+<nav class="project-links" aria-label="Project links">
+  <a class="project-home{% if pagename == 'index' %} current{% endif %}"
+     href="{{ pathto('index') }}"{% if pagename == 'index' %} aria-current="page"{% endif %}>
+    <i class="fa-solid fa-house" aria-hidden="true"></i> Home
+  </a>
+  <a class="project-github"
+     href="https://github.com/Yquetzal/disentangled_structures_inferences_on_networks/tree/v2">
+    <i class="fa-brands fa-github" aria-hidden="true"></i> GitHub repository
+    <span aria-hidden="true">↗</span>
+  </a>
+</nav>

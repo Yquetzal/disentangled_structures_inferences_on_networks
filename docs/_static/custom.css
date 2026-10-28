@@ -1,0 +1,105 @@
+/* A compact, readable theme with visible project navigation. */
+html[data-theme="light"] {
+  --pst-color-primary: #087e8b;
+  --pst-color-link: #087381;
+  --pst-color-link-hover: #065762;
+  --pst-color-secondary: #087e8b;
+  --project-accent-bg: #edf7f7;
+  --project-code-bg: #f5f7fa;
+}
+
+html[data-theme="dark"] {
+  --pst-color-primary: #6dd2d6;
+  --pst-color-link: #7ddade;
+  --pst-color-link-hover: #b3edef;
+  --pst-color-secondary: #6dd2d6;
+  --project-accent-bg: #17353a;
+  --project-code-bg: #202b36;
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+
+.navbar-brand-text {
+  font-size: 1.35rem;
+  font-weight: 750;
+  letter-spacing: -0.04em;
+}
+
+.project-links {
+  display: grid;
+  gap: 0.5rem;
+  margin: 0.3rem 0 1.1rem;
+}
+
+.project-links a {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  padding: 0.65rem 0.85rem;
+  border-radius: 0.5rem;
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.project-home {
+  color: var(--pst-color-text-base);
+}
+
+.project-home:hover,
+.project-home.current {
+  background: var(--project-accent-bg);
+  color: var(--pst-color-primary);
+}
+
+.project-links .project-github {
+  background: var(--pst-color-primary);
+  color: var(--pst-color-background);
+}
+
+.project-links .project-github:hover {
+  filter: brightness(0.9);
+}
+
+.project-github span {
+  margin-left: auto;
+}
+
+.bd-article-container h1 {
+  font-weight: 750;
+  letter-spacing: -0.035em;
+  margin-bottom: 1.4rem;
+}
+
+.bd-article-container h2 {
+  font-weight: 650;
+  margin-top: 2.5rem;
+}
+
+#disentangled-net > p:first-of-type {
+  font-size: 1.3rem;
+  line-height: 1.5;
+  color: var(--pst-color-primary);
+  margin-bottom: 1.5rem;
+}
+
+.bd-article-container p,
+.bd-article-container li {
+  line-height: 1.75;
+}
+
+.bd-article-container div.highlight {
+  background: var(--project-code-bg);
+  border: 1px solid var(--pst-color-border);
+  border-radius: 0.6rem;
+  overflow: hidden;
+}
+
+.bd-article-container div.highlight pre {
+  padding: 1.1rem;
+}
+
+.bd-sidebar-primary .sidebar-primary-items__start {
+  gap: 0.65rem;
+}

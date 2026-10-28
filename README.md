@@ -64,7 +64,5 @@ Inputs can be networkx graphs or `scipy.sparse` adjacency matrices.
 For development, install this checkout with `python -m pip install ".[test,docs,embeddings]"`.
 Run tests with `python -m pytest -q` and build the documentation with
 `python -m sphinx -n -W -b html docs docs/_build/html`.
-See the [release and hosting guide](https://yquetzal.github.io/disentangled_structures_inferences_on_networks/releasing.html)
-for publication instructions.
 
 Authors: Guilhem Dupuy and Rémy Cazabet. Released under the [MIT license](https://github.com/Yquetzal/disentangled_structures_inferences_on_networks/blob/v2/LICENSE).
