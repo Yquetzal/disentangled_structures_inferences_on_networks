@@ -114,7 +114,28 @@ fixes after publication require a new version, for example 2.0.1.
 
 ## Documentation and article before submission
 
-### First Read the Docs deployment, before any PyPI release
+### GitHub Pages: automatic deployment
+
+The documentation is hosted at
+[the GitHub Pages site](https://yquetzal.github.io/disentangled_structures_inferences_on_networks/).
+Every push to **`v2`** runs `.github/workflows/ci.yml`: after the tests and
+package/documentation checks pass, it publishes the generated Sphinx HTML.
+No PyPI release or additional hosting account is needed.
+
+The repository's **Settings → Pages → Source** is set to **GitHub Actions**.
+The `github-pages` deployment environment allows the `v2` branch. Both settings
+are configured once; subsequent documentation changes only need a commit and
+push. Pull requests and pushes to other branches run the checks without
+publishing. Generated `docs/_build/` files stay out of Git.
+
+When moving development to `main`, update both `v2` conditions in the workflow
+and the allowed branch in the `github-pages` environment. GitHub Pages serves
+one current documentation site; it does not automatically create a separate
+site for each release tag.
+
+Reference: [GitHub Pages custom workflows](https://docs.github.com/en/pages/getting-started-with-github-pages/using-custom-workflows-with-github-pages).
+
+### Alternative: Read the Docs
 
 The existing `.readthedocs.yaml` installs the code from the selected Git branch
 with its `docs` extra, using Python 3.12, then builds `docs/conf.py`. It does not
@@ -143,9 +164,8 @@ PyTorch. Builds fail on Sphinx warnings and unresolved references.
    integration. After merging v2 into `main`, change the Read the Docs default
    branch to `main`. Later, activate release tags for versioned documentation.
 
-After the first successful hosted build, replace the temporary GitHub
-documentation URL in `pyproject.toml` and validate the article's documentation
-link. The name and URL must reflect the project actually registered.
+If switching hosting to Read the Docs, update the documentation URL in
+`pyproject.toml`, the README and the article to the actual registered address.
 
 Read the Docs is a conventional choice for Python/Sphinx projects, with release
 versions managed by the service. GitHub Pages is also standard and avoids an

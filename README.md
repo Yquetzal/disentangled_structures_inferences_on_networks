@@ -50,7 +50,7 @@ advanced settings and reproducing experiments. Its existing defaults are unchang
 - Input: networkx graphs or `scipy.sparse` adjacency matrices.
 - Joint distance and within-group effects: `fit_spatial_null(..., groups="country")`.
 
-Read the [documentation](https://github.com/Yquetzal/disentangled_structures_inferences_on_networks/tree/v2/docs),
+Read the [documentation](https://yquetzal.github.io/disentangled_structures_inferences_on_networks/),
 [migration notes](https://github.com/Yquetzal/disentangled_structures_inferences_on_networks/blob/v2/docs/whats_new.md)
 and [publication guide](https://github.com/Yquetzal/disentangled_structures_inferences_on_networks/blob/v2/docs/releasing.md). Build the HTML documentation locally
 with `python -m pip install ".[docs]"` followed by
