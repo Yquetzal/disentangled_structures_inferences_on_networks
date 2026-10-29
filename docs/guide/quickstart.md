@@ -17,12 +17,23 @@ structure; this does not guarantee statistical independence from the attribute.
 
 ## Your own attributes
 
-| Attribute | Call on your graph | Interpretation |
-|---|---|---|
-| Age, income, a numeric score | `dn.disentangled_communities(G, attribute="age")` | Effect of distance between numeric values |
-| Categorical attributes: country, language, organisation | `dn.disentangled_communities(G, attribute="country")` | Connectivity between categories |
-| Geographic coordinates | `dn.disentangled_communities(G, attribute="pos", metric="haversine")` | `pos` contains `(latitude, longitude)` in degrees |
-| Integer codes for categories | `dn.disentangled_communities(G, attribute="group_id", attribute_type="categorical")` | Codes are labels, not ordered quantities |
+What the attribute explains is a *null model*: for every pair of nodes $u, v$, the
+number of links $P_{uv}$ expected from the attribute and the degrees alone. The
+library fits it on your graph, then looks for the structure that it does not
+explain. The last column gives the model fitted for each kind of attribute; it is
+also the `null` that the functions accept instead of an attribute
+(see {ref}`fit-once` and {doc}`nulls`).
+
+| Attribute | Call on your graph | Interpretation | Fitted null model |
+|---|---|---|---|
+| Age, income, a numeric score | `dn.disentangled_communities(G, attribute="age")` | Effect of distance between numeric values | {ref}`Spatial <spatial-null>`: $\theta_u\theta_v f(\lvert x_u - x_v\rvert)$ |
+| Categorical attributes: country, language, organisation | `dn.disentangled_communities(G, attribute="country")` | Connectivity between categories | {ref}`Block model <block-nulls>`: $\theta_u\theta_v\,\omega_{b_u b_v}$ |
+| Geographic coordinates | `dn.disentangled_communities(G, attribute="pos", metric="haversine")` | `pos` contains `(latitude, longitude)` in degrees | {ref}`Spatial <spatial-null>`: $\theta_u\theta_v f(d_{uv})$, $d_{uv}$ in km |
+| Integer codes for categories | `dn.disentangled_communities(G, attribute="group_id", attribute_type="categorical")` | Codes are labels, not ordered quantities | {ref}`Block model <block-nulls>`: $\theta_u\theta_v\,\omega_{b_u b_v}$ |
+
+$\theta_u$ accounts for the degree of node $u$; $f$ is a function of the
+distance, with one value per distance bin; $\omega_{ab}$ is the density of
+links between categories $a$ and $b$. All are fitted on the graph.
 
 The same arguments work for `disentangled_embeddings`. Automatic type detection
 treats numbers/vectors as continuous and strings/booleans as categorical. Numeric
@@ -62,6 +73,7 @@ compression keeps the original model; landmarks define an approximate one.
 Custom distance functions retain exact evaluation and can therefore be slow
 on large graphs. The automatic path currently accounts for one attribute at a time.
 
+(fit-once)=
 ## Fit once and reuse
 
 ```python

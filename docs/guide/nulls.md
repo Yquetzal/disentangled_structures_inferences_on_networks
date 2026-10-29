@@ -13,6 +13,7 @@ A null model gives the expected weight $P_{uv}$ of every pair of nodes. All null
 | `fit_configuration_null` | $P_{uv} = k_u k_v / 2m$ | only degrees (standard modularity) |
 | `custom_null` | any matrix or function | anything else |
 
+(spatial-null)=
 ## Spatial null
 
 ```python
@@ -51,6 +52,7 @@ null = dn.fit_spatial_null(G, "pos", metric="haversine", bins=20, binning="edges
 
 Within country $c$, $P_{uv}=\theta_u\theta_v f(d_{uv})b_c$; across countries, the factor is 1. Use `group_effect="shared"` for a single factor for all within-country pairs. The fit matches degrees, distance-bin totals and within-country totals (their sum in shared mode). This is a multiplicative joint fit; adding two separately fitted nulls with `+` describes a different model. This option currently supports binned Poisson fitting and exact evaluation, and uses O(n²) memory; landmarks are rejected explicitly.
 
+(block-nulls)=
 ## Block and configuration nulls
 
 ```python
